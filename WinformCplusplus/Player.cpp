@@ -19,6 +19,11 @@ int Play(const char* fileName)
 {
 	// Get Source State
 	alGetSourcei(uiSource, AL_SOURCE_STATE, &iState);
+	
+	Stop(fileName);
+
+	// Generate an AL Buffer
+	alGenBuffers(1, &uiBuffer);
 
 	if(iState == AL_PLAYING)
 		ALFWprintf("playing %s\n", fileName);
@@ -71,4 +76,9 @@ int Pause(const char* fileName)
 int Resume(const char* fileName)
 {
 	return 0;
+}
+
+void ChangeVolume(float volume)
+{
+	alListenerf(AL_GAIN, volume/10.0f);
 }

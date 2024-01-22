@@ -1,0 +1,12 @@
+﻿  aldlist.cpp
+D:\SVN\Eleves\dhininger\Tools\OpenALProject\WinformCplusplus\framework\Win32\LoadOAL.h(1,10): fatal  error C1083: Impossible d'ouvrir le fichier include : 'al.h' : No such file or directory
+  CWaves.cpp
+  Framework.cpp
+D:\SVN\Eleves\dhininger\Tools\OpenALProject\WinformCplusplus\framework\Win32\Framework.h(10,9): fatal  error C1083: Impossible d'ouvrir le fichier include : 'al.h' : No such file or directory
+  LoadOAL.cpp
+D:\SVN\Eleves\dhininger\Tools\OpenALProject\WinformCplusplus\framework\Win32\LoadOAL.h(1,10): fatal  error C1083: Impossible d'ouvrir le fichier include : 'al.h' : No such file or directory
+  MyForm.cpp
+  Player.cpp
+D:\SVN\Eleves\dhininger\Tools\OpenALProject\WinformCplusplus\Player.cpp(2,9): fatal  error C1083: Impossible d'ouvrir le fichier include : 'Framework.h' : No such file or directory
+  .NETFramework,Version=v4.7.2.AssemblyAttributes.cpp
+  Génération de code en cours...

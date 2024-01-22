@@ -48,6 +48,7 @@ namespace WinformCplusplus {
 	private: System::Windows::Forms::Button^ button2;
 	private: System::Windows::Forms::Button^ button3;
 	private: System::Windows::Forms::Button^ button4;
+	private: System::Windows::Forms::TrackBar^ trackBar1;
 
 	private:
 		/// <summary>
@@ -69,6 +70,8 @@ namespace WinformCplusplus {
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->button3 = (gcnew System::Windows::Forms::Button());
 			this->button4 = (gcnew System::Windows::Forms::Button());
+			this->trackBar1 = (gcnew System::Windows::Forms::TrackBar());
+			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar1))->BeginInit();
 			this->SuspendLayout();
 			// 
 			// openFileDialog1
@@ -124,11 +127,23 @@ namespace WinformCplusplus {
 			this->button4->UseVisualStyleBackColor = true;
 			this->button4->Click += gcnew System::EventHandler(this, &MyForm::button_Resume);
 			// 
+			// trackBar1
+			// 
+			this->trackBar1->Location = System::Drawing::Point(448, 12);
+			this->trackBar1->Name = L"trackBar1";
+			this->trackBar1->Orientation = System::Windows::Forms::Orientation::Vertical;
+			this->trackBar1->Size = System::Drawing::Size(45, 104);
+			this->trackBar1->TabIndex = 5;
+			this->trackBar1->TickStyle = System::Windows::Forms::TickStyle::Both;
+			this->trackBar1->Value = 10;
+			this->trackBar1->Scroll += gcnew System::EventHandler(this, &MyForm::OnChangeVolume);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(505, 134);
+			this->Controls->Add(this->trackBar1);
 			this->Controls->Add(this->button4);
 			this->Controls->Add(this->button3);
 			this->Controls->Add(this->button2);
@@ -154,6 +169,9 @@ namespace WinformCplusplus {
 	private: System::Void button_Resume(System::Object^ sender, System::EventArgs^ e) {
 		Resume(WATER_STREAM_0);
 	}
-	};
+	private: System::Void OnChangeVolume(System::Object^ sender, System::EventArgs^ e) {
+		ChangeVolume(trackBar1->Value);
+	}
+};
 
 }
