@@ -2,3 +2,7 @@ D:\SVN\Eleves\dhininger\Tools\OpenALProject\WinformCplusplus\Debug\WinformCplusp
 D:\SVN\Eleves\dhininger\Tools\OpenALProject\WinformCplusplus\Debug\WinformCplusplus.vcxproj.SuggestedBindingRedirects.cache
 D:\SVN\Eleves\dhininger\Tools\OpenALProject\WinformCplusplus\Debug\WinformCplusplus.MyForm.resources
 D:\SVN\Eleves\dhininger\Tools\OpenALProject\WinformCplusplus\Debug\WinformCplusplus.vcxproj.GenerateResource.cache
+D:\SVN\Eleves\Tool\OpenAL\WinformCplusplus\Debug\WinformCplusplus.vcxproj.AssemblyReference.cache
+D:\SVN\Eleves\Tool\OpenAL\WinformCplusplus\Debug\WinformCplusplus.vcxproj.SuggestedBindingRedirects.cache
+D:\SVN\Eleves\Tool\OpenAL\WinformCplusplus\Debug\WinformCplusplus.MyForm.resources
+D:\SVN\Eleves\Tool\OpenAL\WinformCplusplus\Debug\WinformCplusplus.vcxproj.GenerateResource.cache

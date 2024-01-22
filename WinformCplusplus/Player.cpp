@@ -1,6 +1,9 @@
 #include "Player.h"
 #include"Framework.h"
 
+ALuint      uiBuffer;
+ALuint      uiSource;
+ALint       iState;
 
 int init() {
 	// Initialize Framework
@@ -14,10 +17,6 @@ int init() {
 
 int Play(const char * fileName)
 {
-	ALuint      uiBuffer;
-	ALuint      uiSource;
-	ALint       iState;
-	
 	// Generate an AL Buffer
 	alGenBuffers(1, &uiBuffer);
 
@@ -37,25 +36,26 @@ int Play(const char * fileName)
 	// Play Source
 	alSourcePlay(uiSource);
 
-	/*
-	do
-	{
-		Sleep(100);
-		ALFWprintf(".");
-		// Get Source State
-		alGetSourcei(uiSource, AL_SOURCE_STATE, &iState);
-	} while (iState == AL_PLAYING);
-	*/
+	return 0;
+}
 
+int Stop(const char* fileName)
+{
 	// Clean up by deleting Source(s) and Buffer(s)
-	/*
+	
 	alSourceStop(uiSource);
 	alDeleteSources(1, &uiSource);
 	alDeleteBuffers(1, &uiBuffer);
+	
+	return 0;
+}
 
-	ALFWShutdownOpenAL();
+int Pause(const char* fileName)
+{
+	return 0;
+}
 
-	ALFWShutdown();
-	*/
+int Resume(const char* fileName)
+{
 	return 0;
 }
