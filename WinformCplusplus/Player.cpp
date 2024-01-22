@@ -1,6 +1,9 @@
 #include "Player.h"
 #include"Framework.h"
 
+ALuint      uiBuffer;
+ALuint      uiSource;
+ALint       iState;
 
 int init() {
 	// Initialize Framework
@@ -14,10 +17,6 @@ int init() {
 
 int Play(const char * fileName)
 {
-	ALuint      uiBuffer;
-	ALuint      uiSource;
-	ALint       iState;
-	
 	// Generate an AL Buffer
 	alGenBuffers(1, &uiBuffer);
 
@@ -52,24 +51,6 @@ int Play(const char * fileName)
 
 int Stop(const char* fileName)
 {
-	ALuint      uiBuffer;
-	ALuint      uiSource;
-
-	// Generate an AL Buffer
-	alGenBuffers(1, &uiBuffer);
-
-	// Load Wave file into OpenAL Buffer
-	if (!ALFWLoadWaveToBuffer((char*)fileName, uiBuffer))
-	{
-		ALFWprintf("Failed to load %s\n", fileName);
-	}
-
-	// Generate a Source to playback the Buffer
-	alGenSources(1, &uiSource);
-
-	// Attach Source to Buffer
-	alSourcei(uiSource, AL_BUFFER, uiBuffer);
-
 	// Clean up by deleting Source(s) and Buffer(s)
 	
 	alSourceStop(uiSource);
