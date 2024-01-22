@@ -140,6 +140,7 @@
     <ClCompile Include="framework\Win32\LoadOAL.cpp" />
     <ClCompile Include="MyForm.cpp" />
     <ClCompile Include="Player.cpp" />
+    <ClCompile Include="PlayerOGG.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework\Win32\aldlist.h" />
@@ -150,6 +151,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Player.h" />
+    <ClInclude Include="PlayerOGG.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">
