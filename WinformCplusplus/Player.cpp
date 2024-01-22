@@ -15,26 +15,35 @@ int init() {
 	}
 }
 
-int Play(const char * fileName)
+int Play(const char* fileName)
 {
-	// Generate an AL Buffer
-	alGenBuffers(1, &uiBuffer);
+	// Get Source State
+	alGetSourcei(uiSource, AL_SOURCE_STATE, &iState);
 
-	// Load Wave file into OpenAL Buffer
-	if (!ALFWLoadWaveToBuffer((char*)fileName, uiBuffer))
+	if(iState == AL_PLAYING)
+		ALFWprintf("playing %s\n", fileName);
+
+	if (iState != AL_PLAYING)//play source if source is not already playing
 	{
-		ALFWprintf("Failed to load %s\n", fileName);
+		// Generate an AL Buffer
+		alGenBuffers(1, &uiBuffer);
+
+		// Load Wave file into OpenAL Buffer
+		if (!ALFWLoadWaveToBuffer((char*)fileName, uiBuffer))
+		{
+			ALFWprintf("Failed to load %s\n", fileName);
+		}
+
+		// Generate a Source to playback the Buffer
+		alGenSources(1, &uiSource);
+
+		// Attach Source to Buffer
+		alSourcei(uiSource, AL_BUFFER, uiBuffer);
+		//pour boucler un son
+		alSourcei(uiSource, AL_LOOPING, 1);
+
+		alSourcePlay(uiSource);
 	}
-
-	// Generate a Source to playback the Buffer
-	alGenSources(1, &uiSource);
-
-	// Attach Source to Buffer
-	alSourcei(uiSource, AL_BUFFER, uiBuffer);
-	//pour boucler un son
-	alSourcei(uiSource, AL_LOOPING, 1);
-	// Play Source
-	alSourcePlay(uiSource);
 
 	return 0;
 }
@@ -42,16 +51,20 @@ int Play(const char * fileName)
 int Stop(const char* fileName)
 {
 	// Clean up by deleting Source(s) and Buffer(s)
-	
+
 	alSourceStop(uiSource);
 	alDeleteSources(1, &uiSource);
 	alDeleteBuffers(1, &uiBuffer);
-	
+
 	return 0;
 }
 
 int Pause(const char* fileName)
 {
+	// Get Source State
+	alGetSourcei(uiSource, AL_SOURCE_STATE, &iState);
+	if (iState == AL_PLAYING)
+		alSourcePause(uiSource);
 	return 0;
 }
 

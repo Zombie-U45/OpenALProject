@@ -1,6 +1,5 @@
 #include "Player.h"
 #define	WATER_STREAM_0		"Ruisseau_Escattes_01.wav"
-#define	WATER_STREAM_1		"Ruisseau_Escattes_02.wav"
 #pragma once
 
 namespace WinformCplusplus {
@@ -136,7 +135,7 @@ namespace WinformCplusplus {
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->label1);
 			this->Name = L"MyForm";
-			this->Text = L"Open AL Ambience Player POC";
+			this->Text = L"Open AL";
 			this->ResumeLayout(false);
 			this->PerformLayout();
 
