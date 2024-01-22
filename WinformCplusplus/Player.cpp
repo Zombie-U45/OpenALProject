@@ -36,16 +36,6 @@ int Play(const char * fileName)
 	// Play Source
 	alSourcePlay(uiSource);
 
-	/*
-	do
-	{
-		Sleep(100);
-		ALFWprintf(".");
-		// Get Source State
-		alGetSourcei(uiSource, AL_SOURCE_STATE, &iState);
-	} while (iState == AL_PLAYING);
-	*/
-
 	return 0;
 }
 
@@ -56,10 +46,6 @@ int Stop(const char* fileName)
 	alSourceStop(uiSource);
 	alDeleteSources(1, &uiSource);
 	alDeleteBuffers(1, &uiBuffer);
-
-	ALFWShutdownOpenAL();
-
-	ALFWShutdown();
 	
 	return 0;
 }
