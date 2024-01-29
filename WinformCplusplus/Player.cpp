@@ -20,13 +20,8 @@ int Play(const char* fileName)
 	// Get Source State
 	alGetSourcei(uiSource, AL_SOURCE_STATE, &iState);
 
-	Stop(fileName);
-
 	// Generate an AL Buffer
 	alGenBuffers(1, &uiBuffer);
-
-	if (iState == AL_PLAYING)
-		ALFWprintf("playing %s\n", fileName);
 
 	if (iState != AL_PLAYING)//play source if source is not already playing
 	{
