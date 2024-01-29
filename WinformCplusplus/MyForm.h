@@ -1,4 +1,5 @@
 #include "Player.h"
+#include <fstream>
 #define	WATER_STREAM_0		"Ruisseau_Escattes_01.wav"
 #pragma once
 
@@ -50,6 +51,7 @@ namespace WinformCplusplus {
 	private: System::Windows::Forms::Button^ button4;
 	private: System::Windows::Forms::TrackBar^ trackBar1;
 	private: System::Windows::Forms::ListBox^ SoundList;
+	private: System::Windows::Forms::Button^ button5;
 
 	private:
 		/// <summary>
@@ -73,6 +75,7 @@ namespace WinformCplusplus {
 			this->button4 = (gcnew System::Windows::Forms::Button());
 			this->trackBar1 = (gcnew System::Windows::Forms::TrackBar());
 			this->SoundList = (gcnew System::Windows::Forms::ListBox());
+			this->button5 = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -151,12 +154,23 @@ namespace WinformCplusplus {
 			this->SoundList->DragDrop += gcnew System::Windows::Forms::DragEventHandler(this, &MyForm::SoundList_DragDrop_1);
 			this->SoundList->DragEnter += gcnew System::Windows::Forms::DragEventHandler(this, &MyForm::SoundList_DragEnter);
 			// 
+			// button5
+			// 
+			this->button5->Location = System::Drawing::Point(202, 308);
+			this->button5->Name = L"button5";
+			this->button5->Size = System::Drawing::Size(75, 23);
+			this->button5->TabIndex = 7;
+			this->button5->Text = L"Save";
+			this->button5->UseVisualStyleBackColor = true;
+			this->button5->Click += gcnew System::EventHandler(this, &MyForm::SoundList_Save);
+			// 
 			// MyForm
 			// 
 			this->AllowDrop = true;
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(505, 398);
+			this->Controls->Add(this->button5);
 			this->Controls->Add(this->SoundList);
 			this->Controls->Add(this->trackBar1);
 			this->Controls->Add(this->button4);
@@ -173,7 +187,7 @@ namespace WinformCplusplus {
 		}
 #pragma endregion
 
-	List<String^>^ listedSound = gcnew List<String^>;
+		List<String^>^ listedSound = gcnew List<String^>;
 
 	private: System::Void button_Play(System::Object^ sender, System::EventArgs^ e) {
 
@@ -195,6 +209,8 @@ namespace WinformCplusplus {
 	private: System::Void SoundList_DragDrop_1(System::Object^ sender, System::Windows::Forms::DragEventArgs^ e) {
 		array<String^>^ files = safe_cast<array<String^>^>(e->Data->GetData(DataFormats::FileDrop));
 
+		SoundList->DataSource = nullptr;
+
 		for each (String ^ sound in files)
 		{
 			listedSound->Add(sound);
@@ -207,6 +223,23 @@ namespace WinformCplusplus {
 		if (e->Data->GetDataPresent(DataFormats::FileDrop))
 			e->Effect = DragDropEffects::Copy;
 	}
-};
+	private: System::Void SoundList_Save(System::Object^ sender, System::EventArgs^ e) {
+
+		// Create a new file named "playlist.txt"
+		std::ofstream outputFile("playlist.txt");
+
+		if (outputFile.is_open()) {  // Check if the file was successfully opened
+			// Write some text into the file
+			outputFile << "PLAYLIST";
+			for each (String^ sound in listedSound)
+			{
+				outputFile << &sound;
+			}
+
+			// Close the file
+			outputFile.close();  // Close the file after writing
+		}
+	}
+	};
 
 }
