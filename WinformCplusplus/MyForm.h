@@ -278,26 +278,28 @@ namespace WinformCplusplus {
 			e->Effect = DragDropEffects::Copy;
 	}
 	private: System::Void SoundList_Save(System::Object^ sender, System::EventArgs^ e) {
+		Stream^ myStream;
+		SaveFileDialog^ saveFileDialog1 = gcnew SaveFileDialog;
 
-		// Create a new file named "playlist.txt"
-		std::ofstream outputFile("playlist.txt");
-
-		if (outputFile.is_open()) {  // Check if the file was successfully opened
+		if (saveFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+		{
+			if ((myStream = saveFileDialog1->OpenFile()) != nullptr)// Check if the file was successfully opened
+				String^ strfilename = saveFileDialog1->InitialDirectory + saveFileDialog1->FileName;
 			// Write some text into the file
-			outputFile << "PLAYLIST";
-			for each (String^ sound in listedSound)
+			array<Byte>^ byteArray = System::Text::Encoding::UTF8->GetBytes("PLAYLIST\n");
+			myStream->Write(byteArray, 0, byteArray->Length);
+			for each (String ^ sound in listedSound)
 			{
-				const char* chars = (const char*)(Marshal::StringToHGlobalAnsi(sound).ToPointer());
-				Marshal::FreeHGlobal(IntPtr((void*)chars));
-				outputFile << "\n";
-				outputFile << chars;
+				byteArray = System::Text::Encoding::UTF8->GetBytes(sound + "\n");
+				myStream->Write(byteArray, 0, byteArray->Length);
 			}
 
 			// Close the file
-			outputFile.close();  // Close the file after writing
+			myStream->Close();  
+
 		}
 	}
-	
+
 	private: System::Void Open_Click(System::Object^ sender, System::EventArgs^ e) {
 		Stream^ myStream;
 		OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;
@@ -314,13 +316,13 @@ namespace WinformCplusplus {
 					if (line != "PLAYLIST")
 					{
 						listedSound->Add(line);
-					}		
+					}
 				}
 				SoundList->DataSource = listedSound;
 				myStream->Close();
 			}
 		}
 	}
-};
+	};
 
 }
