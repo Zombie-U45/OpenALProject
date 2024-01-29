@@ -13,6 +13,7 @@ namespace WinformCplusplus {
 	using namespace System::Drawing;
 	using namespace System::Collections::Generic;
 
+	using namespace System::IO;
 	using System::IntPtr;
 	using System::Runtime::InteropServices::Marshal;
 	/// <summary>
@@ -55,6 +56,7 @@ namespace WinformCplusplus {
 	private: System::Windows::Forms::TrackBar^ trackBar1;
 	private: System::Windows::Forms::ListBox^ SoundList;
 	private: System::Windows::Forms::Button^ button5;
+	private: System::Windows::Forms::Button^ Open;
 
 	private:
 		/// <summary>
@@ -79,6 +81,7 @@ namespace WinformCplusplus {
 			this->trackBar1 = (gcnew System::Windows::Forms::TrackBar());
 			this->SoundList = (gcnew System::Windows::Forms::ListBox());
 			this->button5 = (gcnew System::Windows::Forms::Button());
+			this->Open = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->trackBar1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -159,7 +162,7 @@ namespace WinformCplusplus {
 			// 
 			// button5
 			// 
-			this->button5->Location = System::Drawing::Point(202, 308);
+			this->button5->Location = System::Drawing::Point(203, 308);
 			this->button5->Name = L"button5";
 			this->button5->Size = System::Drawing::Size(75, 23);
 			this->button5->TabIndex = 7;
@@ -167,12 +170,23 @@ namespace WinformCplusplus {
 			this->button5->UseVisualStyleBackColor = true;
 			this->button5->Click += gcnew System::EventHandler(this, &MyForm::SoundList_Save);
 			// 
+			// Open
+			// 
+			this->Open->Location = System::Drawing::Point(203, 354);
+			this->Open->Name = L"Open";
+			this->Open->Size = System::Drawing::Size(75, 23);
+			this->Open->TabIndex = 8;
+			this->Open->Text = L"Open";
+			this->Open->UseVisualStyleBackColor = true;
+			this->Open->Click += gcnew System::EventHandler(this, &MyForm::Open_Click);
+			// 
 			// MyForm
 			// 
 			this->AllowDrop = true;
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(505, 398);
+			this->Controls->Add(this->Open);
 			this->Controls->Add(this->button5);
 			this->Controls->Add(this->SoundList);
 			this->Controls->Add(this->trackBar1);
@@ -273,7 +287,10 @@ namespace WinformCplusplus {
 			outputFile << "PLAYLIST";
 			for each (String^ sound in listedSound)
 			{
-				outputFile << &sound;
+				const char* chars = (const char*)(Marshal::StringToHGlobalAnsi(sound).ToPointer());
+				Marshal::FreeHGlobal(IntPtr((void*)chars));
+				outputFile << "\n";
+				outputFile << chars;
 			}
 
 			// Close the file
@@ -281,6 +298,29 @@ namespace WinformCplusplus {
 		}
 	}
 	
+	private: System::Void Open_Click(System::Object^ sender, System::EventArgs^ e) {
+		Stream^ myStream;
+		OpenFileDialog^ openFileDialog1 = gcnew OpenFileDialog;
+
+		if (openFileDialog1->ShowDialog() == System::Windows::Forms::DialogResult::OK)
+		{
+			if ((myStream = openFileDialog1->OpenFile()) != nullptr)
+			{
+				String^ strfilename = openFileDialog1->InitialDirectory + openFileDialog1->FileName;
+				listedSound->Clear();
+				SoundList->DataSource = nullptr;
+				for each (auto line in File::ReadLines(strfilename))
+				{
+					if (line != "PLAYLIST")
+					{
+						listedSound->Add(line);
+					}		
+				}
+				SoundList->DataSource = listedSound;
+				myStream->Close();
+			}
+		}
+	}
 };
 
 }
