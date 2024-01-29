@@ -56,10 +56,11 @@ int Play(const char* fileName)
 int Stop(const char* fileName)
 {
 	// Clean up by deleting Source(s) and Buffer(s)
-
-	alSourceStop(uiSource);
-	alDeleteSources(1, &uiSource);
-	alDeleteBuffers(1, &uiBuffer);
+	alGetSourcei(uiSource, AL_SOURCE_STATE, &iState);
+	if (iState == AL_PLAYING)
+	{
+		alSourceStop(uiSource);
+	}
 
 	return 0;
 }
