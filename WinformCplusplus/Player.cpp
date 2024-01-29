@@ -19,13 +19,13 @@ int Play(const char* fileName)
 {
 	// Get Source State
 	alGetSourcei(uiSource, AL_SOURCE_STATE, &iState);
-	
+
 	Stop(fileName);
 
 	// Generate an AL Buffer
 	alGenBuffers(1, &uiBuffer);
 
-	if(iState == AL_PLAYING)
+	if (iState == AL_PLAYING)
 		ALFWprintf("playing %s\n", fileName);
 
 	if (iState != AL_PLAYING)//play source if source is not already playing
@@ -58,9 +58,7 @@ int Stop(const char* fileName)
 	// Clean up by deleting Source(s) and Buffer(s)
 	alGetSourcei(uiSource, AL_SOURCE_STATE, &iState);
 	if (iState == AL_PLAYING)
-	{
 		alSourceStop(uiSource);
-	}
 
 	return 0;
 }
@@ -76,13 +74,12 @@ int Pause(const char* fileName)
 
 int Resume(const char* fileName)
 {
-
-	Stop(fileName);
-	Play(fileName);
+	alSourceRewind(uiSource);
+	alSourcePlay(uiSource);
 	return 0;
 }
 
 void ChangeVolume(float volume)
 {
-	alListenerf(AL_GAIN, volume/10.0f);
+	alListenerf(AL_GAIN, volume / 10.0f);
 }
