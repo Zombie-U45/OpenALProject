@@ -75,6 +75,9 @@ int Pause(const char* fileName)
 
 int Resume(const char* fileName)
 {
+
+	Stop(fileName);
+	Play(fileName);
 	return 0;
 }
 
