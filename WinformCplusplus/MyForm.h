@@ -12,6 +12,9 @@ namespace WinformCplusplus {
 	using namespace System::Data;
 	using namespace System::Drawing;
 	using namespace System::Collections::Generic;
+
+	using System::IntPtr;
+	using System::Runtime::InteropServices::Marshal;
 	/// <summary>
 	/// Description résumée de MyForm
 	/// </summary>
@@ -130,7 +133,7 @@ namespace WinformCplusplus {
 			this->button4->TabIndex = 4;
 			this->button4->Text = L"Resume";
 			this->button4->UseVisualStyleBackColor = true;
-			this->button4->Click += gcnew System::EventHandler(this, &MyForm::button_Resume);
+			this->button4->Click += gcnew System::EventHandler(this, &MyForm::button4_Click);
 			// 
 			// trackBar1
 			// 
@@ -189,19 +192,56 @@ namespace WinformCplusplus {
 
 		List<String^>^ listedSound = gcnew List<String^>;
 
+		const char* currentlyPlaying;
+
 	private: System::Void button_Play(System::Object^ sender, System::EventArgs^ e) {
 
-		Play(WATER_STREAM_0);
+		if (listedSound->Count > 0)
+		{
+			const char* chars = (const char*)(Marshal::StringToHGlobalAnsi(listedSound[SoundList->SelectedIndex])).ToPointer();
+			Marshal::FreeHGlobal(IntPtr((void*)chars));
+			currentlyPlaying = chars;
+			Play(chars);
+		}
+		else
+		{
+			Play(WATER_STREAM_0);
+		}
 	}
 	private: System::Void button_Stop(System::Object^ sender, System::EventArgs^ e) {
-		Stop(WATER_STREAM_0);
+		if (listedSound->Count > 0)
+		{
+			Stop(currentlyPlaying);
+		}
+		else
+		{
+			Stop(WATER_STREAM_0);
+		}
 	}
 	private: System::Void button_Pause(System::Object^ sender, System::EventArgs^ e) {
-		Pause(WATER_STREAM_0);
+		if (listedSound->Count > 0)
+		{
+
+			Pause(currentlyPlaying);
+		}
+		else
+		{
+			Pause(WATER_STREAM_0);
+		}
+
 	}
-	private: System::Void button_Resume(System::Object^ sender, System::EventArgs^ e) {
-		Resume(WATER_STREAM_0);
+	private: System::Void button4_Click(System::Object^ sender, System::EventArgs^ e) {
+		if (listedSound->Count > 0)
+		{
+
+			Resume(currentlyPlaying);
+		}
+		else
+		{
+			Resume(WATER_STREAM_0);
+		}
 	}
+
 	private: System::Void OnChangeVolume(System::Object^ sender, System::EventArgs^ e) {
 		ChangeVolume(trackBar1->Value);
 	}
@@ -240,6 +280,7 @@ namespace WinformCplusplus {
 			outputFile.close();  // Close the file after writing
 		}
 	}
-	};
+	
+};
 
 }
